@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\User;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRequest extends FormRequest
@@ -13,7 +14,8 @@ class UserRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        // make this true if you dont have user authentication
+        return true;
     }
 
     /**
@@ -24,7 +26,21 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => [
+                'required',
+                'string'
+            ],
+            'email' => [
+                'required',
+                'email',
+                'string',
+                Rule::unique('users', 'email')->ignore($this->id, 'id')
+            ],
+            'password' => [
+                'required',
+                'confirmed',
+                'min: 6'
+            ]
         ];
     }
 }

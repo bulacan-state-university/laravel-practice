@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Api\UsersController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\SodasController;
+use App\Http\Controllers\Api\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,9 @@ Route::prefix('users')->name('users.')->group(function () {
 
     // store user
     Route::post('/', [UsersController::class, 'store'])->name('store');
+});
+
+Route::prefix('sodas')->name('sodas.')->group(function () {
+
+    Route::get('/', [SodasController::class, 'get'])->name('get');
 });

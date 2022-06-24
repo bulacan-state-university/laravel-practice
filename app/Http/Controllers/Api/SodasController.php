@@ -10,6 +10,7 @@ use App\Http\Resources\Soda\SodaResource;
 
 class SodasController extends Controller
 {
+    // GET
     public function get()
     {
         $sodas = Soda::orderBy('name', 'DESC')->get();
@@ -17,6 +18,7 @@ class SodasController extends Controller
         return SodaResource::collection($sodas);
     }
 
+    // STORE
     public function store(SodaRequest $request)
     {
         $soda = Soda::create([
@@ -26,6 +28,29 @@ class SodasController extends Controller
 
         return [
             'created' => $soda->save()
+        ];
+    }
+
+    // UPDATE
+    public function update(Request $request, Soda $soda)
+    {
+        // NOTE: $soda will be the params for routes config in api.php
+        // Check my route config
+        return [
+            'updated' => $soda->update([
+                'name' => $request->name,
+                'color' => $request->color
+            ])
+        ];
+    }
+
+    // DELETE
+    public function delete(Soda $soda)
+    {
+        // NOTE: $soda will be the params for routes config in api.php
+        // Check my route config
+        return [
+            'deleted' => $soda->delete()
         ];
     }
 }

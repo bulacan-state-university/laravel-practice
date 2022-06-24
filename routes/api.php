@@ -30,5 +30,17 @@ Route::prefix('users')->name('users.')->group(function () {
 
 Route::prefix('sodas')->name('sodas.')->group(function () {
 
+    // get soda
     Route::get('/', [SodasController::class, 'get'])->name('get');
+
+    // store soda
+    Route::post('/', [SodasController::class, 'store'])->name('store');
+
+    // update soda
+    // {soda} is the id
+    Route::patch('/{soda}', [SodasController::class, 'update'])->name('update');
+
+    // delete soda
+    // {soda} is the id
+    Route::delete('/{soda}', [SodasController::class, 'delete'])->name('delete');
 });

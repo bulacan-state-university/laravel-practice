@@ -10,12 +10,18 @@ use App\Http\Resources\Soda\SodaResource;
 
 class SodasController extends Controller
 {
+
     // GET
     public function get()
     {
-        $sodas = Soda::orderBy('name', 'DESC')->get();
+        // LARAVEL FETCHING
+        $list = Soda::orderBy('name', 'DESC')->get();
+        $sodas = SodaResource::collection($list);
+        return view('sodas.index', ['sodas' => $sodas]);
 
-        return SodaResource::collection($sodas);
+        // FOR JS FETCHING
+        //$sodas = Soda::orderBy('name', 'DESC')->get();
+        //return SodaResource::collection($sodas);
     }
 
     // STORE

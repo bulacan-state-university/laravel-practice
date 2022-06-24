@@ -15,8 +15,8 @@ class SodaResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'soda_name' => $this->name,
-            'soda_color' => $this->color,
+            'name' => $this->name,
+            'color' => $this->color,
         ];
     }
 }

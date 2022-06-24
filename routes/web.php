@@ -15,8 +15,5 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('sodas/index');
+    return view('welcome');
 });
-
-
-Route::get('/', [SodasController::class, 'get']);

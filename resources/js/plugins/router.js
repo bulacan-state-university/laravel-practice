@@ -26,7 +26,7 @@ const router = new VueRouter({
 
   // Routes Declaration
   routes: [
-    // Dashboard
+    // Home
     {
       path: '/',
       name: 'home',

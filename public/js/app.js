@@ -2177,7 +2177,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]({
     }; // Scroll Behavior on each navigation change
   },
   // Routes Declaration
-  routes: [// Dashboard
+  routes: [// Home
   {
     path: '/',
     name: 'home',

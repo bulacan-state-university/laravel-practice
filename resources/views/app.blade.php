@@ -21,6 +21,7 @@
 
 <body>
     <div id="app">
+        {{-- app.vue component --}}
         <app></app>
     </div>
 

@@ -14,9 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+// MOUNT LARAVEL BLADE FOR VUE COMPONENTS
+Route::get('/{any}', function () {
+    return view('app');
+})->where('any', '.*');
+
+
+/* Route::get('/', function () {
     return view('sodas/index');
-});
+}); */
 
 
-Route::get('/', [SodasController::class, 'get']);
+/* Route::get('/', [SodasController::class, 'get']); */

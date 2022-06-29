@@ -15,13 +15,13 @@ class SodasController extends Controller
     public function get()
     {
         // LARAVEL FETCHING
-        $list = Soda::orderBy('name', 'DESC')->get();
-        $sodas = SodaResource::collection($list);
-        return view('sodas.index', ['sodas' => $sodas]);
+        // $list = Soda::orderBy('name', 'DESC')->get();
+        // $sodas = SodaResource::collection($list);
+        // return view('sodas.index', ['sodas' => $sodas]);
 
         // FOR JS FETCHING
-        //$sodas = Soda::orderBy('name', 'DESC')->get();
-        //return SodaResource::collection($sodas);
+        $sodas = Soda::orderBy('name', 'DESC')->get();
+        return SodaResource::collection($sodas);
     }
 
     // STORE
@@ -29,7 +29,7 @@ class SodasController extends Controller
     {
         $soda = Soda::create([
             'name' => $request->name,
-            'color' => $request->color
+            'flavor' => $request->flavor
         ]);
 
         return [
@@ -45,7 +45,7 @@ class SodasController extends Controller
         return [
             'updated' => $soda->update([
                 'name' => $request->name,
-                'color' => $request->color
+                'flavor' => $request->flavor
             ])
         ];
     }

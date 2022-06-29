@@ -16,7 +16,7 @@ class CreateSodasTable extends Migration
         Schema::create('sodas', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('color');
+            $table->string('flavor');
             $table->timestamps();
         });
     }

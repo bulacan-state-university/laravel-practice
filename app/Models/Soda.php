@@ -11,6 +11,6 @@ class Soda extends Model
 
     protected $fillable = [
         'name',
-        'color',
+        'flavor',
     ];
 }

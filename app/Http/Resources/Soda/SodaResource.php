@@ -16,7 +16,7 @@ class SodaResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'color' => $this->color,
+            'flavor' => $this->flavor,
         ];
     }
 }

@@ -18,11 +18,11 @@ class SodasSeeder extends Seeder
         DB::table('sodas')->insert([
             [
                 'name' => 'Coke',
-                'color' => 'Dark Brown'
+                'flavor' => 'Dark Brown'
             ],
             [
                 'name' => 'Pepsi',
-                'color' => 'Blue'
+                'flavor' => 'Blue'
             ]
         ]);
     }

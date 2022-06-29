@@ -28,7 +28,7 @@ class SodaRequest extends FormRequest
                 'required',
                 'string',
             ],
-            'color' => [
+            'flavor' => [
                 'required',
                 'string'
             ]

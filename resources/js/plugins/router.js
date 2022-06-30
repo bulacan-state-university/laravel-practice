@@ -8,6 +8,11 @@ import VueRouter from 'vue-router'
 import Home from '../components/pages/Home.vue'
 
 // =======================================================================
+// IMPORT ROUTER NAVIGATION HERE
+// =======================================================================
+import MainNav from '../components/layouts/navigation/Main.vue'
+
+// =======================================================================
 // Make Vue use VueRouter
 // =======================================================================
 Vue.use(VueRouter)
@@ -31,7 +36,8 @@ const router = new VueRouter({
       path: '/',
       name: 'home',
       components: {
-        default: Home
+        default: Home,
+        navigation: MainNav
       },
       meta: {
         title: 'Dashboard',

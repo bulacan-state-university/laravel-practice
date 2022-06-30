@@ -2115,10 +2115,117 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
+      rules: {
+        required: function required(v) {
+          return !!v || "This is a required filed";
+        }
+      },
+      sodaId: null,
+      sodaName: null,
+      sodaFlavor: null,
+      sodaErrors: null,
+      addForm: null,
+      formDialog: false,
+      deleteDialog: false,
       loading: false,
       saving: false,
       deleting: false,
@@ -2130,17 +2237,37 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }, {
         text: 'Flavor',
         value: 'flavor'
+      }, {
+        value: 'actions',
+        text: ' ',
+        sortable: false,
+        filterable: false
       }]
     };
   },
   created: function created() {
     this.getSoda();
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
     sodas: 'sodas/LIST'
-  })),
+  })), {}, {
+    nameError: function nameError() {
+      var _this$sodaErrors;
+
+      return (_this$sodaErrors = this.sodaErrors) === null || _this$sodaErrors === void 0 ? void 0 : _this$sodaErrors.name;
+    },
+    hasNameError: function hasNameError() {
+      return !!this.nameError;
+    },
+    hasSelectedSoda: function hasSelectedSoda() {
+      return !!this.sodaId;
+    }
+  }),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)({
-    _getSoda: 'sodas/GET'
+    _getSoda: 'sodas/GET',
+    _saveSoda: 'sodas/SAVE',
+    _updateSoda: 'sodas/UPDATE',
+    _deleteSoda: 'sodas/DELETE'
   })), {}, {
     getSoda: function getSoda() {
       var _this = this;
@@ -2149,6 +2276,102 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       this._getSoda()["finally"](function () {
         _this.loading = false;
+      });
+    },
+    closeDialog: function closeDialog() {
+      var _this2 = this;
+
+      this.formDialog = false;
+      setTimeout(function () {
+        _this2.sodaName = null;
+        _this2.sodaFlavor = null;
+        _this2.sodaErrors = null;
+
+        _this2.$refs.addForm.resetValidation();
+      }, 500);
+    },
+    submitForm: function submitForm() {
+      if (this.hasSelectedSoda) {
+        this.updateSoda();
+      } else {
+        this.saveSoda();
+      }
+    },
+    saveSoda: function saveSoda() {
+      var _this3 = this;
+
+      if (this.$refs.addForm.validate()) {
+        this.saving = true;
+
+        this._saveSoda({
+          name: this.sodaName,
+          flavor: this.sodaFlavor
+        }).then(function (response) {
+          if (response.created) {
+            _this3.getSoda();
+
+            _this3.closeDialog();
+          }
+        })["catch"](function (e) {
+          _this3.sodaErrors = e.errors;
+        })["finally"](function () {
+          _this3.saving = false;
+        });
+      }
+    },
+    editSoda: function editSoda(item) {
+      this.formDialog = true;
+      this.sodaName = item === null || item === void 0 ? void 0 : item.name;
+      this.sodaFlavor = item === null || item === void 0 ? void 0 : item.flavor;
+      this.sodaId = item === null || item === void 0 ? void 0 : item.id;
+    },
+    updateSoda: function updateSoda() {
+      var _this4 = this;
+
+      if (this.$refs.addForm.validate()) {
+        this.saving = true;
+
+        this._updateSoda({
+          id: this.sodaId,
+          data: {
+            id: this.sodaId,
+            name: this.sodaName,
+            flavor: this.sodaFlavor
+          }
+        }).then(function (response) {
+          if (response.updated) _this4.getSoda();
+
+          _this4.closeDialog();
+        })["catch"](function (e) {
+          _this4.sodaErrors = e.errors;
+        })["finally"](function () {
+          _this4.saving = false;
+        });
+      }
+    },
+    deleteSoda: function deleteSoda(item) {
+      this.sodaId = item === null || item === void 0 ? void 0 : item.id;
+      this.deleteDialog = true;
+    },
+    closeDeleteDialog: function closeDeleteDialog() {
+      this.deleteDialog = false;
+      this.sodaId = null;
+    },
+    confirmDelete: function confirmDelete() {
+      var _this5 = this;
+
+      this.deleting = true;
+
+      this._deleteSoda({
+        id: this.sodaId
+      }).then(function (response) {
+        if (response.deleted) {
+          _this5.getSoda();
+
+          _this5.closeDeleteDialog();
+        }
+      })["finally"](function () {
+        _this5.deleting = false;
       });
     }
   })
@@ -2527,7 +2750,6 @@ var actions = {
               return _Api_api__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/sodas').then(function (response) {
                 var _response$data;
 
-                console.log(response);
                 commit('SET_SODAS', response === null || response === void 0 ? void 0 : (_response$data = response.data) === null || _response$data === void 0 ? void 0 : _response$data.data);
               });
 
@@ -2547,6 +2769,114 @@ var actions = {
     }
 
     return GET;
+  }(),
+  SAVE: function () {
+    var _SAVE = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(_ref2, data) {
+      var commit;
+      return _regeneratorRuntime().wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              commit = _ref2.commit;
+              _context2.next = 3;
+              return new Promise(function (resolve, reject) {
+                return _Api_api__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/sodas', data).then(function (response) {
+                  resolve(response === null || response === void 0 ? void 0 : response.data);
+                })["catch"](function (e) {
+                  var _e$response;
+
+                  reject((_e$response = e.response) === null || _e$response === void 0 ? void 0 : _e$response.data);
+                });
+              });
+
+            case 3:
+              return _context2.abrupt("return", _context2.sent);
+
+            case 4:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    function SAVE(_x2, _x3) {
+      return _SAVE.apply(this, arguments);
+    }
+
+    return SAVE;
+  }(),
+  UPDATE: function () {
+    var _UPDATE = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee3(_ref3, payload) {
+      var commit;
+      return _regeneratorRuntime().wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              commit = _ref3.commit;
+              _context3.next = 3;
+              return new Promise(function (resolve, reject) {
+                _Api_api__WEBPACK_IMPORTED_MODULE_0__["default"].patch("/api/sodas/".concat(payload.id), payload.data).then(function (response) {
+                  resolve(response === null || response === void 0 ? void 0 : response.data);
+                })["catch"](function (e) {
+                  var _e$response2;
+
+                  reject((_e$response2 = e.response) === null || _e$response2 === void 0 ? void 0 : _e$response2.data);
+                });
+              });
+
+            case 3:
+              return _context3.abrupt("return", _context3.sent);
+
+            case 4:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3);
+    }));
+
+    function UPDATE(_x4, _x5) {
+      return _UPDATE.apply(this, arguments);
+    }
+
+    return UPDATE;
+  }(),
+  DELETE: function () {
+    var _DELETE = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee4(_ref4, payload) {
+      var commit;
+      return _regeneratorRuntime().wrap(function _callee4$(_context4) {
+        while (1) {
+          switch (_context4.prev = _context4.next) {
+            case 0:
+              commit = _ref4.commit;
+              _context4.next = 3;
+              return new Promise(function (resolve, reject) {
+                _Api_api__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]("/api/sodas/".concat(payload.id)).then(function (response) {
+                  resolve(response === null || response === void 0 ? void 0 : response.data);
+                })["catch"](function (e) {
+                  var _e$response3;
+
+                  reject((_e$response3 = e.response) === null || _e$response3 === void 0 ? void 0 : _e$response3.data);
+                });
+              });
+
+            case 3:
+              return _context4.abrupt("return", _context4.sent);
+
+            case 4:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }));
+
+    function DELETE(_x6, _x7) {
+      return _DELETE.apply(this, arguments);
+    }
+
+    return DELETE;
   }()
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -20589,57 +20919,112 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "v-app",
     [
-      _c(
-        "v-app",
-        [
-          _c("v-dialog", {
-            attrs: {
-              transition: "dialog-bottom-transition",
-              "max-width": "600",
-            },
-            scopedSlots: _vm._u([
-              {
-                key: "activator",
-                fn: function (ref) {
-                  var on = ref.on
-                  var attrs = ref.attrs
-                  return [
-                    _c(
+      _c("v-dialog", {
+        attrs: { transition: "dialog-bottom-transition", "max-width": "600" },
+        scopedSlots: _vm._u([
+          {
+            key: "activator",
+            fn: function (ref) {
+              var on = ref.on
+              var attrs = ref.attrs
+              return [
+                _c(
+                  "v-btn",
+                  _vm._g(
+                    _vm._b(
+                      { attrs: { color: "primary" } },
                       "v-btn",
-                      _vm._g(
-                        _vm._b(
-                          { attrs: { color: "primary", dark: "" } },
-                          "v-btn",
-                          attrs,
-                          false
-                        ),
-                        on
-                      ),
-                      [_vm._v("From the bottom")]
+                      attrs,
+                      false
                     ),
-                  ]
-                },
-              },
-              {
-                key: "default",
-                fn: function (dialog) {
-                  return [
+                    on
+                  ),
+                  [_vm._v("From the bottom")]
+                ),
+              ]
+            },
+          },
+          {
+            key: "default",
+            fn: function (dialog) {
+              return [
+                _c(
+                  "v-form",
+                  {
+                    ref: "addForm",
+                    on: {
+                      submit: function ($event) {
+                        $event.preventDefault()
+                        return _vm.submitForm.apply(null, arguments)
+                      },
+                    },
+                    model: {
+                      value: _vm.addForm,
+                      callback: function ($$v) {
+                        _vm.addForm = $$v
+                      },
+                      expression: "addForm",
+                    },
+                  },
+                  [
                     _c(
                       "v-card",
                       [
                         _c(
                           "v-toolbar",
                           { attrs: { color: "primary", dark: "" } },
-                          [_vm._v("Opening from the bottom")]
+                          [
+                            _c("v-toolbar-title", [
+                              _vm._v(
+                                "\n                " +
+                                  _vm._s(
+                                    _vm.hasSelectedSoda
+                                      ? "Edit Soda"
+                                      : "New Soda"
+                                  ) +
+                                  "\n            "
+                              ),
+                            ]),
+                          ],
+                          1
                         ),
                         _vm._v(" "),
-                        _c("v-card-text", [
-                          _c("div", { staticClass: "text-h2 pa-12" }, [
-                            _vm._v("Hello world!"),
-                          ]),
-                        ]),
+                        _c(
+                          "v-card-text",
+                          { staticClass: "mt-3" },
+                          [
+                            _c("v-text-field", {
+                              attrs: {
+                                label: "Soda Name",
+                                error: _vm.hasNameError,
+                                "error-messages": _vm.nameError,
+                                rules: [_vm.rules.required],
+                                outlined: "",
+                              },
+                              model: {
+                                value: _vm.sodaName,
+                                callback: function ($$v) {
+                                  _vm.sodaName = $$v
+                                },
+                                expression: "sodaName",
+                              },
+                            }),
+                            _vm._v(" "),
+                            _c("v-text-field", {
+                              attrs: { label: "Flavor", outlined: "" },
+                              model: {
+                                value: _vm.sodaFlavor,
+                                callback: function ($$v) {
+                                  _vm.sodaFlavor = $$v
+                                },
+                                expression: "sodaFlavor",
+                              },
+                            }),
+                          ],
+                          1
+                        ),
                         _vm._v(" "),
                         _c(
                           "v-card-actions",
@@ -20648,7 +21033,19 @@ var render = function () {
                             _c(
                               "v-btn",
                               {
-                                attrs: { text: "" },
+                                attrs: {
+                                  type: "submit",
+                                  loading: _vm.saving,
+                                  text: "",
+                                },
+                              },
+                              [_vm._v("Save")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "v-btn",
+                              {
+                                attrs: { text: "", disabled: _vm.saving },
                                 on: {
                                   click: function ($event) {
                                     dialog.value = false
@@ -20663,19 +21060,196 @@ var render = function () {
                       ],
                       1
                     ),
-                  ]
-                },
+                  ],
+                  1
+                ),
+              ]
+            },
+          },
+        ]),
+        model: {
+          value: _vm.formDialog,
+          callback: function ($$v) {
+            _vm.formDialog = $$v
+          },
+          expression: "formDialog",
+        },
+      }),
+      _vm._v(" "),
+      _c("v-data-table", {
+        attrs: { dense: "", headers: _vm.headers, items: _vm.sodas },
+        scopedSlots: _vm._u(
+          [
+            {
+              key: "item.actions",
+              fn: function (ref) {
+                var item = ref.item
+                return [
+                  _c(
+                    "v-tooltip",
+                    {
+                      attrs: { bottom: "" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "activator",
+                            fn: function (ref) {
+                              var editTooltip = ref.on
+                              return [
+                                _c(
+                                  "v-btn",
+                                  _vm._g(
+                                    {
+                                      attrs: { icon: "", small: "" },
+                                      on: {
+                                        click: function ($event) {
+                                          return _vm.editSoda(item)
+                                        },
+                                      },
+                                    },
+                                    editTooltip
+                                  ),
+                                  [
+                                    _c("v-icon", [
+                                      _vm._v(
+                                        "\n                mdi-pencil\n            "
+                                      ),
+                                    ]),
+                                  ],
+                                  1
+                                ),
+                              ]
+                            },
+                          },
+                        ],
+                        null,
+                        true
+                      ),
+                    },
+                    [_vm._v(" "), _c("span", [_vm._v("Edit Soda")])]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-tooltip",
+                    {
+                      attrs: { bottom: "" },
+                      scopedSlots: _vm._u(
+                        [
+                          {
+                            key: "activator",
+                            fn: function (ref) {
+                              var deleteTooltip = ref.on
+                              return [
+                                _c(
+                                  "v-btn",
+                                  _vm._g(
+                                    {
+                                      attrs: { icon: "", small: "" },
+                                      on: {
+                                        click: function ($event) {
+                                          return _vm.deleteSoda(item)
+                                        },
+                                      },
+                                    },
+                                    deleteTooltip
+                                  ),
+                                  [
+                                    _c("v-icon", [
+                                      _vm._v(
+                                        "\n                mdi-delete\n            "
+                                      ),
+                                    ]),
+                                  ],
+                                  1
+                                ),
+                              ]
+                            },
+                          },
+                        ],
+                        null,
+                        true
+                      ),
+                    },
+                    [_vm._v(" "), _c("span", [_vm._v("Delete Soda")])]
+                  ),
+                ]
               },
-            ]),
-          }),
+            },
+          ],
+          null,
+          true
+        ),
+      }),
+      _vm._v(" "),
+      _c(
+        "v-dialog",
+        {
+          attrs: { persistent: "", "max-width": "290" },
+          model: {
+            value: _vm.deleteDialog,
+            callback: function ($$v) {
+              _vm.deleteDialog = $$v
+            },
+            expression: "deleteDialog",
+          },
+        },
+        [
+          _c(
+            "v-card",
+            [
+              _c("v-card-title", { staticClass: "text-h5" }, [
+                _vm._v("\n          Use Google's location service?\n        "),
+              ]),
+              _vm._v(" "),
+              _c("v-card-text", [
+                _vm._v(
+                  "Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running."
+                ),
+              ]),
+              _vm._v(" "),
+              _c(
+                "v-card-actions",
+                [
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "green darken-1", text: "" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.closeDeleteDialog()
+                        },
+                      },
+                    },
+                    [_vm._v("\n            Disagree\n          ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        color: "green darken-1",
+                        text: "",
+                        loading: _vm.deleting,
+                      },
+                      on: {
+                        click: function ($event) {
+                          return _vm.confirmDelete()
+                        },
+                      },
+                    },
+                    [_vm._v("\n            Agree\n          ")]
+                  ),
+                ],
+                1
+              ),
+            ],
+            1
+          ),
         ],
         1
       ),
-      _vm._v(" "),
-      _c("v-data-table", {
-        staticClass: "elevation-1",
-        attrs: { dense: "", headers: _vm.headers, items: _vm.sodas },
-      }),
     ],
     1
   )

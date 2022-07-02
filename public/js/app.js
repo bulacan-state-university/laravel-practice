@@ -2210,13 +2210,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       rules: {
         required: function required(v) {
-          return !!v || "This is a required filed";
+          return !!v || 'This is a required filed';
         }
       },
       sodaId: null,
@@ -2339,7 +2342,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             flavor: this.sodaFlavor
           }
         }).then(function (response) {
-          if (response.updated) _this4.getSoda();
+          if (response.updated) {
+            _this4.getSoda();
+          }
 
           _this4.closeDialog();
         })["catch"](function (e) {
@@ -20941,7 +20946,7 @@ var render = function () {
                     ),
                     on
                   ),
-                  [_vm._v("From the bottom")]
+                  [_vm._v("\n        Add New Soda\n      ")]
                 ),
               ]
             },
@@ -20978,7 +20983,7 @@ var render = function () {
                           [
                             _c("v-toolbar-title", [
                               _vm._v(
-                                "\n                " +
+                                "\n              " +
                                   _vm._s(
                                     _vm.hasSelectedSoda
                                       ? "Edit Soda"
@@ -21039,7 +21044,7 @@ var render = function () {
                                   text: "",
                                 },
                               },
-                              [_vm._v("Save")]
+                              [_vm._v("\n              Save\n            ")]
                             ),
                             _vm._v(" "),
                             _c(
@@ -21052,7 +21057,7 @@ var render = function () {
                                   },
                                 },
                               },
-                              [_vm._v("Close")]
+                              [_vm._v("\n              Close\n            ")]
                             ),
                           ],
                           1
@@ -21112,7 +21117,7 @@ var render = function () {
                                   [
                                     _c("v-icon", [
                                       _vm._v(
-                                        "\n                mdi-pencil\n            "
+                                        "\n              mdi-pencil\n            "
                                       ),
                                     ]),
                                   ],
@@ -21156,7 +21161,7 @@ var render = function () {
                                   [
                                     _c("v-icon", [
                                       _vm._v(
-                                        "\n                mdi-delete\n            "
+                                        "\n              mdi-delete\n            "
                                       ),
                                     ]),
                                   ],
@@ -21198,12 +21203,12 @@ var render = function () {
             "v-card",
             [
               _c("v-card-title", { staticClass: "text-h5" }, [
-                _vm._v("\n          Use Google's location service?\n        "),
+                _vm._v("\n        Use Google's location service?\n      "),
               ]),
               _vm._v(" "),
               _c("v-card-text", [
                 _vm._v(
-                  "Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running."
+                  "\n        Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.\n      "
                 ),
               ]),
               _vm._v(" "),
@@ -21222,7 +21227,7 @@ var render = function () {
                         },
                       },
                     },
-                    [_vm._v("\n            Disagree\n          ")]
+                    [_vm._v("\n          Disagree\n        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -21239,7 +21244,7 @@ var render = function () {
                         },
                       },
                     },
-                    [_vm._v("\n            Agree\n          ")]
+                    [_vm._v("\n          Agree\n        ")]
                   ),
                 ],
                 1

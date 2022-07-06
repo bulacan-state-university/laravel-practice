@@ -21203,12 +21203,12 @@ var render = function () {
             "v-card",
             [
               _c("v-card-title", { staticClass: "text-h5" }, [
-                _vm._v("\n        Use Google's location service?\n      "),
+                _vm._v("\n        Are you sure?\n      "),
               ]),
               _vm._v(" "),
               _c("v-card-text", [
                 _vm._v(
-                  "\n        Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.\n      "
+                  "\n        Do you really want to delete these records? This process cannot be undone.\n      "
                 ),
               ]),
               _vm._v(" "),

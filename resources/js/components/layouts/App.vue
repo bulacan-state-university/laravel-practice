@@ -112,10 +112,10 @@
     >
       <v-card>
         <v-card-title class="text-h5">
-          Use Google's location service?
+          Are you sure?
         </v-card-title>
         <v-card-text>
-          Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+          Do you really want to delete these records? This process cannot be undone.
         </v-card-text>
         <v-card-actions>
           <v-spacer />

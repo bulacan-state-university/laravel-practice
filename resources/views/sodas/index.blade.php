@@ -49,7 +49,7 @@
             @foreach ($sodas as $soda)
                 <tr>
                     <td>{{ $soda->name }}</td>
-                    <td>{{ $soda->color }}</td>
+                    <td>{{ $soda->flavor }}</td>
                 </tr>
             @endforeach
         </table>
